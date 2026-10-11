@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesAgent AI — Home Credit LAP Voice Agent Simulator</title>
+    <meta name="description" content="AI Voice Agent simulator for Home Credit Loan Against Property pre-approved offers. Test conversation flows, edge cases, and eligibility scenarios.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-title">SalesAgent AI</span>
+                        <span class="logo-subtitle">Home Credit LAP</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-view="simulator" id="nav-simulator">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>Simulator</span>
+                </button>
+                <button class="nav-btn" data-view="scenarios" id="nav-scenarios">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg>
+                    <span>Test Scenarios</span>
+                </button>
+                <button class="nav-btn" data-view="state" id="nav-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                    <span>Agent State</span>
+                </button>
+                <button class="nav-btn" data-view="transcripts" id="nav-transcripts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Transcripts</span>
+                </button>
+                <button class="nav-btn" data-view="flowchart" id="nav-flowchart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><line x1="12" y1="12" x2="5" y2="14"/><line x1="12" y1="12" x2="19" y2="14"/></svg>
+                    <span>Flow Diagram</span>
+                </button>
+                <button class="nav-btn" data-view="prompt" id="nav-prompt">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    <span>System Prompt</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-info">
+                    <span class="info-badge">v1.0</span>
+                    <span class="info-text">AI Intern Assignment</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div class="top-bar-title" id="viewTitle">
+                    <h1>Voice Agent Simulator</h1>
+                    <p>Test the AI Voice Agent with different customer scenarios</p>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="status-indicator" id="agentStatus">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Agent Ready</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div class="views-container">
+                <!-- SIMULATOR VIEW -->
+                <section class="view active" id="view-simulator">
+                    <div class="simulator-layout">
+                        <!-- Chat Panel -->
+                        <div class="chat-panel">
+                            <div class="chat-header">
+                                <div class="agent-info">
+                                    <div class="agent-avatar">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/></svg>
+                                    </div>
+                                    <div>
+                                        <h3 id="agentNameDisplay">Priya</h3>
+                                        <span class="agent-role">Home Credit Voice Agent</span>
+                                    </div>
+                                </div>
+                                <div class="chat-actions">
+                                    <button class="icon-btn" id="resetChat" title="Reset Conversation">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                                    </button>
+                                    <button class="icon-btn" id="exportChat" title="Export Transcript">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="chat-welcome">
+                                    <div class="welcome-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                    </div>
+                                    <h3>Ready to simulate a call</h3>
+                                    <p>Configure the agent settings and click "Start Call" to begin the conversation simulation.</p>
+                                </div>
+                            </div>
+                            <div class="chat-input-area" id="chatInputArea">
+                                <div class="input-wrapper">
+                                    <input type="text" id="customerInput" placeholder="Type as the customer..." disabled>
+                                    <button class="send-btn" id="sendBtn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                    </button>
+                                </div>
+                                <div class="quick-replies" id="quickReplies"></div>
+                            </div>
+                        </div>
+
+                        <!-- Config Panel -->
+                        <div class="config-panel" id="configPanel">
+                            <div class="config-section">
+                                <h3 class="config-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                    Agent Configuration
+                                </h3>
+                                <div class="config-form">
+                                    <div class="form-group">
+                                        <label>Agent Name</label>
+                                        <input type="text" id="cfgAgentName" value="Priya">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Agent Gender</label>
+                                        <select id="cfgAgentGender">
+                                            <option value="Female" selected>Female</option>
+                                            <option value="Male">Male</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Customer Name</label>
+                                        <input type="text" id="cfgCustomerName" value="Rahul Sharma">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Company Name</label>
+                                        <input type="text" id="cfgCompanyName" value="Home Credit">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Language</label>
+                                        <select id="cfgLanguage">
+                                            <option value="English" selected>English</option>
+                                            <option value="Hindi">Hindi</option>
+                                            <option value="Hinglish">Hinglish</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="start-call-btn" id="startCallBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                Start Call
+                            </button>
+                            <button class="end-call-btn hidden" id="endCallBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                End Call
+                            </button>
+
+                            <!-- Live State Mini View -->
+                            <div class="live-state hidden" id="liveState">
+                                <h4 class="live-state-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                    Live State
+                                </h4>
+                                <div class="state-grid" id="liveStateGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCENARIOS VIEW -->
+                <section class="view" id="view-scenarios">
+                    <div class="scenarios-container">
+                        <div class="scenarios-header">
+                            <h2>Test Scenarios</h2>
+                            <p>Pre-built test scenarios covering all eligibility paths, edge cases, and business rules.</p>
+                            <div class="scenario-stats">
+                                <div class="stat-card">
+                                    <span class="stat-number" id="totalScenarios">12</span>
+                                    <span class="stat-label">Scenarios</span>
+                                </div>
+                                <div class="stat-card">
+                                    <span class="stat-number" id="passScenarios">0</span>
+                                    <span class="stat-label">Passed</span>
+                                </div>
+                                <div class="stat-card">
+                                    <span class="stat-number" id="failScenarios">0</span>
+                                    <span class="stat-label">Failed</span>
+                                </div>
+                                <div class="stat-card">
+                                    <span class="stat-number" id="pendingScenarios">12</span>
+                                    <span class="stat-label">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scenarios-grid" id="scenariosGrid"></div>
+                    </div>
+                </section>
+
+                <!-- STATE VIEW -->
+                <section class="view" id="view-state">
+                    <div class="state-container">
+                        <div class="state-header">
+                            <h2>Agent Qualification State</h2>
+                            <p>Real-time view of the agent's internal state machine during active conversations.</p>
+                        </div>
+                        <div class="state-dashboard" id="stateDashboard">
+                            <div class="state-card">
+                                <h3>Call Status</h3>
+                                <div class="state-items" id="callStatusItems"></div>
+                            </div>
+                            <div class="state-card">
+                                <h3>Eligibility Checklist</h3>
+                                <div class="state-items" id="eligibilityItems"></div>
+                            </div>
+                            <div class="state-card">
+                                <h3>Decision Flags</h3>
+                                <div class="state-items" id="decisionItems"></div>
+                            </div>
+                            <div class="state-card full-width">
+                                <h3>Conversation Flow Progress</h3>
+                                <div class="flow-progress" id="flowProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TRANSCRIPTS VIEW -->
+                <section class="view" id="view-transcripts">
+                    <div class="transcripts-container">
+                        <div class="transcripts-header">
+                            <h2>Conversation Transcripts</h2>
+                            <p>Review and export conversation transcripts from completed test scenarios.</p>
+                        </div>
+                        <div class="transcripts-list" id="transcriptsList">
+                            <div class="empty-state">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                <h3>No transcripts yet</h3>
+                                <p>Complete a conversation in the Simulator to generate a transcript.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FLOWCHART VIEW -->
+                <section class="view" id="view-flowchart">
+                    <div class="flowchart-container">
+                        <div class="flowchart-header">
+                            <h2>Conversation Flow Architecture</h2>
+                            <p>Visual representation of the complete call flow, decision points, and business rules.</p>
+                        </div>
+                        <div class="flowchart-content" id="flowchartContent"></div>
+                    </div>
+                </section>
+
+                <!-- PROMPT VIEW -->
+                <section class="view" id="view-prompt">
+                    <div class="prompt-container">
+                        <div class="prompt-header">
+                            <h2>System Prompt</h2>
+                            <p>The complete system prompt powering the AI Voice Agent.</p>
+                            <button class="copy-btn" id="copyPrompt">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                Copy Prompt
+                            </button>
+                        </div>
+                        <div class="prompt-content" id="promptContent"></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="agent-engine.js"></script>
+    <script src="scenarios.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
